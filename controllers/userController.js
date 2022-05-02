@@ -4,7 +4,7 @@ const mongoose= require("mongoose");
 const User= require("../models/user");
 exports.register= async(req,res,next)=>{
 
-const { username,password,email} = req.body;
+const { username,password,email,name,dob} = req.body;
 try { 
     
      const  user = await User.findOne({email :email});
@@ -20,10 +20,13 @@ try {
         
         username : username,
         password: password,
-        email:email
+        email:email,
+        dob:Date(dob),
+        name:name
 
 
- })  ;
+ })  ; 
+
  if(result){  
 
      console.log(result); 
@@ -33,7 +36,8 @@ try {
         username : result.username    
 
 
-                  } ; 
+                  } ;  
+                  
     await jwt.sign(
         payload,
         process.env.JWT_SECRET,
@@ -93,10 +97,14 @@ try {
     if(await user.matchPassword(password)){
         const payload={
             id : user._id,
-            username : user.username  
+            username : user.username,
+            email : user.email  
 
 
                       } ;
+
+
+                      
         await jwt.sign(
             payload,
             process.env.JWT_SECRET,
@@ -147,3 +155,51 @@ try {
 
 
 }
+
+
+
+exports.updatePassword= async(req,res,next)=>{
+    const {username, oldPassword , newPassword} =req.body;
+    try { 
+
+        const user = await User.findOne({username :username})
+           if(user){
+            if(await user.matchPassword(oldPassword)){ 
+
+                const update = User.findOneAndUpdate({username :username}, {
+                    password : newPassword
+                }) 
+                if(update){
+                    return res.status(200).json({
+                        message : "Success"
+                    })
+                }
+
+
+            } 
+            else 
+            return res.status(200).json({
+                message:"Password Incorrect"
+            })
+
+
+
+           }
+ 
+
+        
+    } catch (error) { 
+        return res.status(203).json({
+            message:'Failed'
+        })
+      
+    }
+    
+    
+    
+    
+    
+    
+    }
+
+    

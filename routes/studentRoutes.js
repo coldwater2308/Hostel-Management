@@ -8,5 +8,5 @@ router.get('/:id',studentController.getStudent);
 router.patch('/update/:id',studentController.updateStudent);
 router.get('/',studentController.getStudents);  
 router.patch('/allot',studentController.allotStudent);
-
+router.get('/check/:email',studentController.checkStudent);
 module.exports = router;

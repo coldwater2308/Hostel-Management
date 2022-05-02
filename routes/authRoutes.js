@@ -20,7 +20,8 @@ router.get('/',async(req,res,next)=>{
        const isStaff= decoded.username.toString().substring(0,2)==="SF"?true:false;
 
 if(isAdmin&&!isStudent&&!isStaff)
-return  res.json({
+return  res.json({ 
+  username : decoded.username,
   userType : "admin",
    message:"Success",
    isLoggedIn: true
@@ -28,6 +29,7 @@ return  res.json({
 else if(isStudent&&!isStaff&&!isAdmin)
 
 return  res.json({
+  username : decoded.username,
   userType : "student",
    message:"Success",
    isLoggedIn: true
@@ -35,6 +37,8 @@ return  res.json({
 else if(isStaff&&!isAdmin&&!isStudent){ 
   
   return  res.json({
+    username : decoded.username, 
+    email : decoded.email,
     userType : "staff",
      message:"Success",
      isLoggedIn: true

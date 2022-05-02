@@ -93,7 +93,7 @@ exports.createComplaint= async(req,res,next)=>{
    
     const userId = req.body.userId.toString();
     const title = req.body.title.toString();
-    const body = req.body.body.toString();
+    const body = req.body.cbody.toString();
     
         try { 
         
@@ -154,7 +154,7 @@ exports.updateComplaint= async(req,res,next)=>{
 
            })
            if(complaints){
-               return res.status(400).json({
+               return res.status(200).json({
                    message : "Success",
                    data: complaints
                });
@@ -176,13 +176,13 @@ exports.updateComplaint= async(req,res,next)=>{
 
 
         exports.deleteComplaint= async(req,res,next)=>{
-            const complaintId = req.params.id.toString();
+            const complaintId = req.params.complaintId.toString();
          
                 try { 
                 
                    const complaints = await Complaints.findByIdAndDelete(complaintId)
                    if(complaints){
-                       return res.status(400).json({
+                       return res.status(200).json({
                            message : "Success",
                            
                        });

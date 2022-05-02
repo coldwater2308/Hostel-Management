@@ -165,7 +165,7 @@ try {
         roomPerFloor : r,
         noOfFloors:f,
         type : "Single",
-        gender:"Boys"
+       
     });
     if(hostel)
     res.status(200).json({

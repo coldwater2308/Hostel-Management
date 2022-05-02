@@ -1,44 +1,43 @@
 // const Tutor = require('../Models/Tutor');
 const mongoose  = require('mongoose');
 
-const User = require('../models/user');
-exports.getStudent= async(req,res, next)=>{
-const id = req.params.id.toString();
+const Student = require('../models/student');
+exports.getStudents= async(req,res, next)=>{
+
 try { 
-    const student = await User.findOne({userType: "student",_id:id});
-    if(student)
+    const students = await Student.find();
+    if(students)
+        return res.status(200).json({
+            message:"Success",
+            data:students,
+        })
+    
+} catch (error) {
+    return res.status(404).json(error);
+}
+
+
+
+
+
+} 
+exports.getStudent=async(req,res,next)=>{
+    const studentId= req.params.id.toString();
+    try {
+        const student= await Student.findById(studentId) 
+        if(student)
         res.status(200).json({
             message:"Success",
-            data:student,
+            data :student
         })
-    
-} catch (error) {
-    res.status(404).json(error);
-}
-
-
-
-
-
-}
-exports.getStudents= async(req,res,next)=>{
-try { 
-    const students= await User.find({userType: "student"});
-    if(students) 
-    console.log(students);
-        return res.status(200).json({ 
-            message: "Success",
-            data : students
+    } catch (error) {
+        return res.status(404).json({
+            message:"Not Found",
+            data :{}
         })
-    
-} catch (error) {
-    res.status(200).json(error);
+    }
 }
 
-
-
-
-}
 
 
 
@@ -51,7 +50,7 @@ exports.updateStudent=async(req,res,next)=>{
     try { 
     
     
-        const result= User.findOneAndUpdate({_id : id}, {
+        const result=await  Student.findOneAndUpdate({_id : id}, {
             name: name ,
             father_name : fname,
             mother_name : mname,
@@ -63,18 +62,18 @@ exports.updateStudent=async(req,res,next)=>{
         });
 
     if(result)
-        res.status(200).json({
+        return res.status(200).json({
             message:"Success" ,
             data : result
         }); 
     else 
-        res.status(200).json({
+        return res.status(200).json({
             message:"Failed"
         })
     
         
     } catch (error) {
-        res.status(200).json(error);
+        return res.status(200).json(error);
     }
     
     }
@@ -94,16 +93,17 @@ exports.updateStudent=async(req,res,next)=>{
             
                });
                if(allot)
-               res.status(200).json({
+               return res.status(200).json({
                    message: "Success",
                    data:allot
                }) 
                else 
-               res.status(200).json({
+               return res.status(200).json({
                    message:"Error Occurred"
                })
             
-        } catch (error) {
+        } catch (error) { 
+
             console.log(error);
         }
         
@@ -112,7 +112,30 @@ exports.updateStudent=async(req,res,next)=>{
         
         
         
+        } 
+
+        exports.checkStudent=async(req,res,next)=>{
+            const email=req.params.emaail.toString();
+            try {
+                
+                const check= await Student.findOne({email:email});
+                if(check)
+                return res.status(200).json({
+                    message:"Found"
+                }) 
+                else 
+                return res.status(203).json({
+                    message:"Not Found"
+                })
+            } catch (error) {
+                return res.status(203).json({
+                    message:"Failed"
+                })
+            }
         }
+
+        
+
         
 
 

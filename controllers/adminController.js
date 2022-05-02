@@ -1,4 +1,27 @@
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const Admin = require("../models/admin");
 const User = require("../models/user"); 
 exports.getAdmin= async(req,res,next)=>{

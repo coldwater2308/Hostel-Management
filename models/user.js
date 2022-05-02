@@ -16,7 +16,16 @@ email: {
    required:true
 
 
+}, 
+name:{
+    type:String,
+    required:true
 },
+dob:{
+    type:Date,
+    required:true
+} 
+
 
 
 
